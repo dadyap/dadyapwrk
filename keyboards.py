@@ -29,6 +29,9 @@ image_kb = types.ReplyKeyboardMarkup(
             [
                 types.KeyboardButton(text="Баскетбол🏀"),
             ],
+            [
+                types.KeyboardButton(text='Назад')
+            ]
         ],
             resize_keyboard=True,
 )
@@ -51,6 +54,9 @@ exchangerate_kb = types.ReplyKeyboardMarkup(
             ],
             [
                 types.KeyboardButton(text="GBP🇬🇧"),
+            ],
+            [
+                types.KeyboardButton(text='Назад')
             ]
         ],
             resize_keyboard=True,

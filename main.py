@@ -40,6 +40,10 @@ async def start(message: types.Message):
 async def send_image_menu(message: Message):
     await message.answer('Выберите фото:', reply_markup=image_kb)
 
+@dp.message(F.text == 'Назад')
+async def backkb(message: Message):
+    await message.answer('Возвращаю назад', reply_markup=inline_kb)
+
 
 @dp.message(F.text == "Футбол⚽")
 async def send_football_image(message: Message):
@@ -76,6 +80,7 @@ async def get_weather(message: Message):
                 await message.answer("Произошла ошибка при получении данных о погоде.")
 
 
+
 @dp.message(F.text == '💡 Курс валют')
 async def get_exchangerate(message: Message):
     await message.answer('Выберите валюту: ', reply_markup=exchangerate_kb)
@@ -104,6 +109,9 @@ async def cny(message: Message):
 @dp.message(F.text == 'GBP🇬🇧')
 async def gbp(message: Message):
     await message.answer(f'Покупка 109.00 \nПродажа 111.00')
+@dp.message(F.text == 'Назад')
+async def backkb(message: Message):
+    await message.answer('Возвращаю назад', reply_markup=inline_kb)
 
 
 @dp.message(F.text == '🏞 Список фильмов')
@@ -137,6 +145,11 @@ async def send_joke(message: Message):
                 await message.answer(joke)
             else:
                 await message.answer("Ошибка при получении шутки. Попробуйте позже.")
+
+
+@dp.message(F.text == 'Назад')
+async def backkb(message: Message):
+    await message.answer('Возвращаю назад', reply_markup=inline_kb)
 
 
 @dp.message(F.text == "🏞 Пройти опрос")
