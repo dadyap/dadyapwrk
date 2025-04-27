@@ -8,6 +8,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, FSInputFile
 from dotenv import load_dotenv
 from aiogram.fsm.state import State, StatesGroup
+from openai import OpenAI
 
 from db import Database
 from keyboards import inline_kb, image_kb, exchangerate_kb
@@ -17,6 +18,7 @@ load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
@@ -33,7 +35,6 @@ db = Database(
 async def start(message: types.Message):
     user_name = message.from_user.first_name
     await message.answer(f'Привет, {user_name}!', reply_markup=inline_kb)
-
 
 
 @dp.message(F.text == "💡 Картинка")
@@ -235,6 +236,27 @@ async def process_country(message: Message, state: FSMContext):
     await message.answer(result)
     await state.clear()
 
+@dp.message()
+async def chat_with_ai(message: Message):
+    try:
+        client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=f"{OPENAI_API_KEY}",
+        )
+
+        completion = client.chat.completions.create(
+            model="open-r1/olympiccoder-32b:free",
+            messages=[
+                {
+                    "role": "user",
+                    "content": message.text
+                }
+            ]
+        )
+        reply_text = completion.choices[0].message.content
+        await message.answer(reply_text)
+    except Exception as e:
+        print(e)
 
 
 
